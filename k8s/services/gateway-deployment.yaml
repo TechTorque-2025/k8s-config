@@ -1,4 +1,4 @@
-# Kubernetes/services/gateway-deployment.yaml
+# k8s/services/gateway-deployment.yaml
 
 apiVersion: apps/v1
 kind: Deployment
@@ -47,8 +47,9 @@ spec:
             value: "http://admin-service"
           - name: "NOTIFICATIONS_SERVICE_URL"
             value: "http://notification-service"
-            
+
 ---
+
 # This is the "Front Door" - it exposes your gateway to the internet
 
 apiVersion: v1
