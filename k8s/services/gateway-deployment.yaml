@@ -57,6 +57,8 @@ metadata:
 spec:
   # This tells K3s to grab port 80 on your VM
   type: LoadBalancer
+  externalIPs:
+  - 4.187.182.202
   selector:
     app: api-gateway # Connects to your gateway pods
   ports:
