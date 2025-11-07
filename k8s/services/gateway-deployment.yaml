@@ -49,9 +49,7 @@ spec:
             value: "http://notification-service"
 
 ---
-
 # This is the "Front Door" - it exposes your gateway to the internet
-
 apiVersion: v1
 kind: Service
 metadata:
