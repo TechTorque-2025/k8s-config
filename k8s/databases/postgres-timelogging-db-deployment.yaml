@@ -1,0 +1,42 @@
+# k8s-config/k8s/databases/postgres-timelogging-db-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-timelogging-db-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres-timelogging-db
+  template:
+    metadata:
+      labels:
+        app: postgres-timelogging-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: timelogging_db
+        - name: POSTGRES_USER
+          value: timelogging_user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: timelogging-secrets
+              key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-timelogging-db-service
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-timelogging-db
+  ports:
+  - port: 5432
+    targetPort: 5432

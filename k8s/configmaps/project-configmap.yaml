@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: project-config
+  namespace: default
+data:
+  DB_HOST: "postgres-project-db-service"
+  DB_PORT: "5432"
+  DB_NAME: "project_db"
+  DB_USER: "project_user"
+  SPRING_PROFILE: "dev"

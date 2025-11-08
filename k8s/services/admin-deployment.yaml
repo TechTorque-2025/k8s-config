@@ -1,0 +1,65 @@
+# k8s-config/k8s/services/admin-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-service
+  template:
+    metadata:
+      labels:
+        app: admin-service
+    spec:
+      containers:
+      - name: admin-service-container
+        image: ghcr.io/techtorque-2025/admin_service:latest
+        ports:
+          - containerPort: 8087
+        env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: admin-config
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: admin-config
+                key: DB_PORT
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: admin-config
+                key: DB_NAME
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: admin-config
+                key: DB_USER
+          - name: SPRING_PROFILE
+            valueFrom:
+              configMapKeyRef:
+                name: admin-config
+                key: SPRING_PROFILE
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: admin-secrets
+                key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+spec:
+  type: ClusterIP 
+  selector:
+    app: admin-service
+  ports:
+    - protocol: TCP
+      port: 80 
+      targetPort: 8087

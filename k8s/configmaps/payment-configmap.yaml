@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-config
+  namespace: default
+data:
+  DB_HOST: "postgres-payment-db-service"
+  DB_PORT: "5432"
+  DB_NAME: "payment_db"
+  DB_USER: "payment_user"
+  SPRING_PROFILE: "dev"

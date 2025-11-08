@@ -1,0 +1,65 @@
+# k8s-config/k8s/services/project-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-service
+  template:
+    metadata:
+      labels:
+        app: project-service
+    spec:
+      containers:
+      - name: project-service-container
+        image: ghcr.io/techtorque-2025/project_service:latest
+        ports:
+          - containerPort: 8084
+        env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: project-config
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: project-config
+                key: DB_PORT
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: project-config
+                key: DB_NAME
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: project-config
+                key: DB_USER
+          - name: SPRING_PROFILE
+            valueFrom:
+              configMapKeyRef:
+                name: project-config
+                key: SPRING_PROFILE
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: project-secrets
+                key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: project-service
+spec:
+  type: ClusterIP 
+  selector:
+    app: project-service
+  ports:
+    - protocol: TCP
+      port: 80 
+      targetPort: 8084

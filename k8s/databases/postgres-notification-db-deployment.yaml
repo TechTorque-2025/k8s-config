@@ -1,0 +1,42 @@
+# k8s-config/k8s/databases/postgres-notification-db-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-notification-db-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres-notification-db
+  template:
+    metadata:
+      labels:
+        app: postgres-notification-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: notification_db
+        - name: POSTGRES_USER
+          value: notification_user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-notification-db-service
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-notification-db
+  ports:
+  - port: 5432
+    targetPort: 5432

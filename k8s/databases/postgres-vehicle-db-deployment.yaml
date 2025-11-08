@@ -1,0 +1,43 @@
+# k8s-config/k8s/databases/postgres-vehicle-db-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-vehicle-db-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres-vehicle-db
+  template:
+    metadata:
+      labels:
+        app: postgres-vehicle-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine # Lightweight and stable version
+        ports:
+        - containerPort: 5432
+        env:
+        # These are the standard PostgreSQL environment variables
+        - name: POSTGRES_DB
+          value: vehicle_db # Matches your DB_NAME in vehicle-config
+        - name: POSTGRES_USER
+          value: vehicle_user # Matches your DB_USER in vehicle-config
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: vehicle-secrets # Uses the Secret you need to create
+              key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-vehicle-db-service # This is the internal DNS name
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-vehicle-db
+  ports:
+  - port: 5432
+    targetPort: 5432

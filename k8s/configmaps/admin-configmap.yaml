@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: admin-config
+  namespace: default
+data:
+  DB_HOST: "postgres-admin-db-service"
+  DB_PORT: "5432"
+  DB_NAME: "admin_db"
+  DB_USER: "admin_user"
+  SPRING_PROFILE: "dev"

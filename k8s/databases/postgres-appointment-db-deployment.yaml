@@ -1,0 +1,42 @@
+# k8s-config/k8s/databases/postgres-appointment-db-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-appointment-db-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres-appointment-db
+  template:
+    metadata:
+      labels:
+        app: postgres-appointment-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: appointment_db
+        - name: POSTGRES_USER
+          value: appointment_user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: appointment-secrets
+              key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-appointment-db-service
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-appointment-db
+  ports:
+  - port: 5432
+    targetPort: 5432

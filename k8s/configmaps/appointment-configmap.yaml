@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: appointment-config
+  namespace: default
+data:
+  DB_HOST: "postgres-appointment-db-service"
+  DB_PORT: "5432"
+  DB_NAME: "appointment_db"
+  DB_USER: "appointment_user"
+  SPRING_PROFILE: "dev"

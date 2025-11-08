@@ -1,0 +1,74 @@
+# k8s-config/k8s/services/vehicle-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vehicle-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vehicle-service
+  template:
+    metadata:
+      labels:
+        app: vehicle-service
+    spec:
+      containers:
+      - name: vehicle-service-container
+        # This tag will be auto-updated by your deploy pipeline
+        image: ghcr.io/techtorque-2025/vehicle_service:latest
+        ports:
+          # This is the port your Java app is configured to run on
+          - containerPort: 8082
+        env:
+          # Database configuration from ConfigMap
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: vehicle-config
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: vehicle-config
+                key: DB_PORT
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: vehicle-config
+                key: DB_NAME
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: vehicle-config
+                key: DB_USER
+          - name: SPRING_PROFILE
+            valueFrom:
+              configMapKeyRef:
+                name: vehicle-config
+                key: SPRING_PROFILE
+          # Sensitive configuration from Secret
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: vehicle-secrets
+                key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # This is the K8s name for your service.
+  # It MUST match the value in your gateway's env variable.
+  name: vehicle-service
+spec:
+  # ClusterIP means this service is ONLY reachable from *inside* the cluster
+  type: ClusterIP 
+  selector:
+    app: vehicle-service # Connects this Service to the Pods above
+  ports:
+    - protocol: TCP
+      # The service is "available" on port 80 internally
+      port: 80 
+      # But it forwards all traffic to your container's port 8082
+      targetPort: 8082
