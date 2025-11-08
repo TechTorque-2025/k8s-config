@@ -1,0 +1,43 @@
+# k8s/databases/postgres-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-auth-db-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres-auth-db
+  template:
+    metadata:
+      labels:
+        app: postgres-auth-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine # Lightweight and stable version
+        ports:
+        - containerPort: 5432
+        env:
+        # These are the standard PostgreSQL environment variables
+        - name: POSTGRES_DB
+          value: techtorque # Matches your DB_NAME in auth-config
+        - name: POSTGRES_USER
+          value: techtorque # Matches your DB_USER in auth-config
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: auth-secrets # Uses the Secret you already created
+              key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-auth-db-service # This is the internal DNS name
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-auth-db
+  ports:
+  - port: 5432
+    targetPort: 5432
