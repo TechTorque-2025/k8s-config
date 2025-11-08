@@ -1,0 +1,39 @@
+# Kubernetes Secrets - NEVER commit these
+
+*-secrets.yaml
+!k8s-config/k8s/secrets/*.template.yaml
+
+# Environment files
+.env
+*.env
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Build artifacts
+target/
+build/
+dist/
+*.jar
+*.war
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node modules
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.pytest_cache/

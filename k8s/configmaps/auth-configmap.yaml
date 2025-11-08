@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-config
+  namespace: default
+data:
+  EMAIL_ENABLED: "true"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_NAME: "techtorque"
+  DB_USER: "techtorque"
+  FRONTEND_URL: "http://localhost:3000"
+  SPRING_PROFILE: "dev"
+  SECURITY_LOGIN_MAX_FAILED: "3"
+  SECURITY_LOGIN_LOCK_MINUTES: "15"

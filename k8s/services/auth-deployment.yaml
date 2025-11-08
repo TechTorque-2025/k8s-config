@@ -21,6 +21,74 @@ spec:
         ports:
           # This is the port your Java app is configured to run on
           - containerPort: 8081
+        env:
+          # Non-sensitive configuration from ConfigMap
+          - name: EMAIL_ENABLED
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: EMAIL_ENABLED
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: DB_PORT
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: DB_NAME
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: DB_USER
+          - name: FRONTEND_URL
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: FRONTEND_URL
+          - name: SPRING_PROFILE
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: SPRING_PROFILE
+          - name: SECURITY_LOGIN_MAX_FAILED
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: SECURITY_LOGIN_MAX_FAILED
+          - name: SECURITY_LOGIN_LOCK_MINUTES
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: SECURITY_LOGIN_LOCK_MINUTES
+          # Sensitive configuration from Secret
+          - name: MAIL_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: auth-secrets
+                key: MAIL_USERNAME
+          - name: MAIL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: auth-secrets
+                key: MAIL_PASSWORD
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: auth-secrets
+                key: JWT_SECRET
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: auth-secrets
+                key: DB_PASS
 ---
 apiVersion: v1
 kind: Service
