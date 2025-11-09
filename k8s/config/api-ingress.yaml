@@ -1,42 +1,90 @@
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: api-gateway-ingress
-  namespace: default  # Add your namespace if different
-spec:
-  entryPoints:
-    - web # Port 80
-    - websecure # Port 443
-  
-  routes:
-  # --- Rule 1: Redirect HTTP to HTTPS ---
-  # This rule matches all traffic on port 80 and permanently redirects it
-  - match: Host(`techtorque.randitha.net`)
-    kind: Rule
-    middlewares:
-      - name: redirect-to-https
-
-  # --- Rule 2: Handle API Traffic (Securely) ---
-  # This rule matches all traffic on port 443
-  - match: Host(`techtorque.randitha.net`) && PathPrefix(`/api/`)
-    kind: Rule
-    services:
-    - name: api-gateway-service # Forwards to your internal Go Gateway
-      port: 80
-      
-  # --- This tells Traefik to get an SSL cert for this domain ---
-  tls:
-    certResolver: letsencrypt-prod
-    domains:
-    - main: techtorque.randitha.net
 ---
-# This is the simple redirect middleware
+# CORS Middleware - This fixes your frontend connection issues
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: cors-headers
+  namespace: default
+spec:
+  headers:
+    accessControlAllowOriginList:
+      - "http://localhost:3000"
+      - "https://techtorque.vercel.app"
+      - "https://*.vercel.app"
+    accessControlAllowMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "PATCH"
+      - "OPTIONS"
+    accessControlAllowHeaders:
+      - "Accept"
+      - "Authorization"
+      - "Content-Type"
+      - "X-CSRF-Token"
+      - "X-Requested-With"
+    accessControlExposeHeaders:
+      - "Link"
+    accessControlAllowCredentials: true
+    accessControlMaxAge: 100
+
+---
+# HTTP to HTTPS Redirect Middleware
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: redirect-to-https
-  namespace: default  # Add your namespace if different
+  namespace: default
 spec:
   redirectScheme:
     scheme: https
     permanent: true
+
+---
+# Main IngressRoute
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-gateway-ingress
+  namespace: default
+spec:
+  entryPoints:
+    - web # Port 80
+  
+  routes:
+  # Redirect HTTP to HTTPS
+  - match: Host(`techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: redirect-to-https
+    services:
+      - name: api-gateway-service
+        port: 80
+
+---
+# HTTPS IngressRoute with CORS
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-gateway-ingress-secure
+  namespace: default
+spec:
+  entryPoints:
+    - websecure # Port 443
+  
+  routes:
+  # Handle all API traffic with CORS
+  - match: Host(`techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: cors-headers  # ADD THIS - This is critical for your frontend!
+    services:
+      - name: api-gateway-service
+        port: 80
+      
+  # TLS configuration
+  tls:
+    certResolver: letsencrypt-prod
+    domains:
+      - main: techtorque.randitha.net
