@@ -7,7 +7,7 @@ metadata:
   name: frontend-config
   namespace: default
 data:
-  # API Gateway URL - points to internal K8s service
+  # API Gateway URL - points to API subdomain with /api/v1 prefix
   NEXT_PUBLIC_API_BASE_URL: "https://api.techtorque.randitha.net/api/v1"
   
   # PayHere Configuration (if needed)
