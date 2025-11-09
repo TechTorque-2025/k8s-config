@@ -1,0 +1,44 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-gateway-ingress
+spec:
+  entryPoints:
+    - web # Port 80
+    - websecure # Port 443
+  
+  routes:
+  # --- Rule 1: Redirect HTTP to HTTPS ---
+  # This rule matches all traffic on port 80 and permanently redirects it
+  - match: Host(`techtorque.randitha.net`)
+    kind: Rule
+    entryPoints:
+      - web
+    middlewares:
+      - name: redirect-to-https
+
+  # --- Rule 2: Handle API Traffic (Securely) ---
+  # This rule matches all traffic on port 443
+  - match: Host(`techtorque.randitha.net`) && PathPrefix(`/api/`)
+    kind: Rule
+    entryPoints:
+      - websecure
+    services:
+    - name: api-gateway-service # Forwards to your internal Go Gateway
+      port: 80
+      
+  # --- This tells Traefik to get an SSL cert for this domain ---
+  tls:
+    certResolver: letsencrypt-prod
+    domains:
+    - main: techtorque.randitha.net
+---
+# This is the simple redirect middleware
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-httpsS
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true

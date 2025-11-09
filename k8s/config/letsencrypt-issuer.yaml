@@ -1,0 +1,25 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # This is the official Let's Encrypt server
+    server: https://acme-v02.api.letsencrypt.org/directory
+    
+    # --- IMPORTANT ---
+    # Change this to your own email address.
+    # Let's Encrypt will use this to send you expiry notifications.
+    email: "your-email@randitha.net"
+    
+    # This tells cert-manager to create a K8s secret to store
+    # your private key for the certificate
+    privateKeySecretRef:
+      name: letsencrypt-prod-key
+      
+    # This tells cert-manager how to "prove" you own the domain.
+    # It will use the 'http01' method, which works with our Traefik Ingress.
+    solvers:
+    - http01:
+        ingress:
+          class: traefik

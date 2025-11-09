@@ -56,12 +56,10 @@ metadata:
   name: api-gateway-service
 spec:
   # This tells K3s to grab port 80 on your VM
-  type: LoadBalancer
-  externalIPs:
-  - 4.187.182.202
+  type: ClusterIP
   selector:
     app: api-gateway # Connects to your gateway pods
   ports:
   - name: http
-    port: 80 # Public internet port
+    port: 80 # Internal port
     targetPort: 8080 # The port your Go container listens on
