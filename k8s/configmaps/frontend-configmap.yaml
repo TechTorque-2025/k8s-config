@@ -1,0 +1,17 @@
+# k8s/configmaps/frontend-configmap.yaml
+# Frontend environment configuration
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: default
+data:
+  # API Gateway URL - points to internal K8s service
+  NEXT_PUBLIC_API_BASE_URL: "https://api.techtorque.randitha.net"
+  
+  # PayHere Configuration (if needed)
+  # NEXT_PUBLIC_PAYHERE_MERCHANT_ID: "your_merchant_id"
+  
+  # Node.js environment
+  NODE_ENV: "production"

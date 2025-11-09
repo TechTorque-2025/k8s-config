@@ -1,0 +1,150 @@
+---
+# Certificate for techtorque.randitha.net (Frontend)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: techtorque-tls
+  namespace: default
+spec:
+  secretName: techtorque-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - techtorque.randitha.net
+
+---
+# Certificate for api.techtorque.randitha.net
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-techtorque-tls
+  namespace: default
+spec:
+  secretName: api-techtorque-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - api.techtorque.randitha.net
+
+---
+# CORS Middleware - Allow frontend domain
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: cors-headers
+  namespace: default
+spec:
+  headers:
+    accessControlAllowOriginList:
+      - "http://localhost:3000"
+      - "https://techtorque.vercel.app"
+      - "https://techtorque.randitha.net"  # Your production frontend
+    accessControlAllowMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "PATCH"
+      - "OPTIONS"
+    accessControlAllowHeaders:
+      - "Accept"
+      - "Authorization"
+      - "Content-Type"
+      - "X-CSRF-Token"
+      - "X-Requested-With"
+    accessControlExposeHeaders:
+      - "Link"
+    accessControlAllowCredentials: true
+    accessControlMaxAge: 100
+
+---
+# HTTP to HTTPS Redirect
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-https
+  namespace: default
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
+---
+# HTTP IngressRoute - Frontend (redirect to HTTPS)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: frontend-http-redirect
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: redirect-to-https
+    services:
+      - name: frontend-service
+        port: 80
+
+---
+# HTTP IngressRoute - API (redirect to HTTPS)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-http-redirect
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`api.techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: redirect-to-https
+    services:
+      - name: api-gateway-service
+        port: 80
+
+---
+# HTTPS IngressRoute - Frontend (Root Domain)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: frontend-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`techtorque.randitha.net`)
+    kind: Rule
+    services:
+      - name: frontend-service
+        port: 80
+  tls:
+    secretName: techtorque-tls  # Already exists!
+
+---
+# HTTPS IngressRoute - API Backend (Subdomain)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`api.techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: cors-headers
+    services:
+      - name: api-gateway-service
+        port: 80
+  tls:
+    secretName: api-techtorque-tls  # cert-manager will create this!
