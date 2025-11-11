@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: appointment-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: appointment-service
