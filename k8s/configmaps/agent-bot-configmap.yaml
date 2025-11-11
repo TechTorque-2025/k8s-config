@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agent-bot-config
+  namespace: default
+data:
+  PORT: "8091"
+  BASE_SERVICE_URL: "http://api-gateway/api/v1"
+  AUTHENTICATION_SERVICE_URL: "http://api-gateway/api/v1/auth"
+  VEHICLE_SERVICE_URL: "http://api-gateway/api/v1/vehicles"
+  PROJECT_SERVICE_URL: "http://api-gateway/api/v1/jobs"
+  TIME_LOGGING_SERVICE_URL: "http://api-gateway/api/v1/logs"
+  APPOINTMENT_SERVICE_URL: "http://api-gateway/api/v1/appointments"
+  GEMINI_MODEL: "gemini-2.5-flash"
+  PINECONE_ENVIRONMENT: "us-east-1-aws"
+  PINECONE_INDEX_NAME: "techtorque-kb"
+  RAG_CHUNK_SIZE: "500"
+  RAG_CHUNK_OVERLAP: "50"
+  MAX_CONTEXT_LENGTH: "2000"

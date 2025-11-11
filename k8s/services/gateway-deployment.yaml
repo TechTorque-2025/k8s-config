@@ -47,6 +47,8 @@ spec:
             value: "http://admin-service"
           - name: "NOTIFICATIONS_SERVICE_URL"
             value: "http://notification-service"
+          - name: "AGENT_BOT_SERVICE_URL"
+            value: "http://agent-bot-service"
 
 ---
 # This is the "Front Door" - it exposes your gateway to the internet
