@@ -5,7 +5,7 @@ metadata:
   namespace: default
 data:
   EMAIL_ENABLED: "true"
-  DB_HOST: "postgres-service"
+  DB_HOST: "postgres-auth-db-service"
   DB_PORT: "5432"
   DB_NAME: "techtorque"
   DB_USER: "techtorque"
