@@ -8,7 +8,7 @@ metadata:
   namespace: default
 data:
   # API Gateway URL - points to API subdomain with /api/v1 prefix
-  NEXT_PUBLIC_API_BASE_URL: "https://api.techtorque.randitha.net/api/v1"
+  NEXT_PUBLIC_API_BASE_URL: "https://api.techtorque.randitha.net"
   
   # PayHere Configuration (if needed)
   # NEXT_PUBLIC_PAYHERE_MERCHANT_ID: "your_merchant_id"

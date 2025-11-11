@@ -9,3 +9,5 @@ data:
   DB_NAME: "notification_db"
   DB_USER: "notification_user"
   SPRING_PROFILE: "dev"
+  GRPC_PORT: "9090"
+  EMAIL_ENABLED: "true"
