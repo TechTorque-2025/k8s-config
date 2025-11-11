@@ -58,6 +58,26 @@ spec:
               configMapKeyRef:
                 name: auth-config
                 key: SPRING_PROFILE
+          - name: NOTIFICATION_GRPC_TARGET
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: NOTIFICATION_GRPC_TARGET
+          - name: NOTIFICATION_GRPC_NEGOTIATION
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: NOTIFICATION_GRPC_NEGOTIATION
+          - name: NOTIFICATION_GRPC_TIMEOUT_MS
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: NOTIFICATION_GRPC_TIMEOUT_MS
+          - name: NOTIFICATION_GRPC_ENABLED
+            valueFrom:
+              configMapKeyRef:
+                name: auth-config
+                key: NOTIFICATION_GRPC_ENABLED
           - name: SECURITY_LOGIN_MAX_FAILED
             valueFrom:
               configMapKeyRef:
@@ -69,16 +89,6 @@ spec:
                 name: auth-config
                 key: SECURITY_LOGIN_LOCK_MINUTES
           # Sensitive configuration from Secret
-          - name: MAIL_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: auth-secrets
-                key: MAIL_USERNAME
-          - name: MAIL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: auth-secrets
-                key: MAIL_PASSWORD
           - name: JWT_SECRET
             valueFrom:
               secretKeyRef:
