@@ -9,3 +9,8 @@ data:
   DB_NAME: "payment_db"
   DB_USER: "payment_user"
   SPRING_PROFILE: "dev"
+  PAYHERE_MERCHANT_ID: "1231968"
+  PAYHERE_SANDBOX: "true"
+  PAYHERE_RETURN_URL: "https://techtorque.randitha.net/payment/success"
+  PAYHERE_CANCEL_URL: "https://techtorque.randitha.net/payment/cancel"
+  PAYHERE_NOTIFY_URL: "https://api.techtorque.randitha.net/api/payments/notify"
