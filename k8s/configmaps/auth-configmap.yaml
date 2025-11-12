@@ -13,7 +13,8 @@ data:
   SPRING_PROFILE: "dev"
   SECURITY_LOGIN_MAX_FAILED: "3"
   SECURITY_LOGIN_LOCK_MINUTES: "15"
-  NOTIFICATION_GRPC_TARGET: "dns:///notification-service-grpc.default.svc.cluster.local:9090"
+  # Fixed: Use simple service name with port for gRPC service discovery
+  NOTIFICATION_GRPC_TARGET: "notification-service-grpc:9090"
   NOTIFICATION_GRPC_NEGOTIATION: "PLAINTEXT"
   NOTIFICATION_GRPC_TIMEOUT_MS: "5000"
   NOTIFICATION_GRPC_ENABLED: "true"

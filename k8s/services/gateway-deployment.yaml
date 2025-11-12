@@ -31,24 +31,25 @@ spec:
 
           # These environment variables will override config.yaml
           # This tells your Go app to use the K8s service names
+          # CRITICAL: Always specify the port for reliable service discovery
           - name: "AUTH_SERVICE_URL"
-            value: "http://auth-service"
+            value: "http://auth-service:80"
           - name: "VEHICLES_SERVICE_URL"
-            value: "http://vehicle-service"
+            value: "http://vehicle-service:80"
           - name: "APPOINTMENTS_SERVICE_URL"
-            value: "http://appointment-service"
+            value: "http://appointment-service:80"
           - name: "PROJECT_SERVICE_URL"
-            value: "http://project-service"
+            value: "http://project-service:80"
           - name: "TIME_LOGS_SERVICE_URL"
-            value: "http://time-logging-service"
+            value: "http://time-logging-service:80"
           - name: "PAYMENT_SERVICE_URL"
-            value: "http://payment-service"
+            value: "http://payment-service:80"
           - name: "ADMIN_SERVICE_URL"
-            value: "http://admin-service"
+            value: "http://admin-service:80"
           - name: "NOTIFICATIONS_SERVICE_URL"
-            value: "http://notification-service"
+            value: "http://notification-service:80"
           - name: "AGENT_BOT_SERVICE_URL"
-            value: "http://agent-bot-service"
+            value: "http://agent-bot-service:80"
 
 ---
 # This is the "Front Door" - it exposes your gateway to the internet
