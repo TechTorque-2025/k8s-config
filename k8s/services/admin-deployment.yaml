@@ -50,6 +50,8 @@ spec:
               secretKeyRef:
                 name: admin-secrets
                 key: DB_PASS
+          - name: AUTH_SERVICE_URL
+            value: "http://auth-service"
 ---
 apiVersion: v1
 kind: Service
