@@ -7,7 +7,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: auth-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -52,7 +51,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: api-gateway-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -97,7 +95,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: vehicle-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -142,7 +139,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: appointment-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -187,7 +183,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: project-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -232,7 +227,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: payment-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -277,7 +271,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: admin-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -322,7 +315,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: time-logging-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -367,7 +359,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: notification-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -412,7 +403,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: agent-bot-service-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -457,7 +447,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: frontend-hpa
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
