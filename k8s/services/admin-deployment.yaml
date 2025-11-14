@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: admin-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: admin-service
