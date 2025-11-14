@@ -35,13 +35,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -80,13 +79,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -125,13 +123,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -170,13 +167,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -215,13 +211,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -260,13 +255,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -305,13 +299,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -350,13 +343,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -395,13 +387,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
@@ -440,13 +431,12 @@ spec:
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 90
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
       - type: Percent
         value: 100
-        periodSeconds: 30
+        # namespace: default
       - type: Pods
         value: 1
         periodSeconds: 30
