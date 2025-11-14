@@ -160,7 +160,8 @@ jobs:
         run: |
           cd k8s-config
           NEW_IMAGE="ghcr.io/techtorque-2025/<service>:${{ steps.info.outputs.branch }}-${{ steps.info.outputs.sha }}"
-          yq -i '(select(.kind == "Deployment") | .spec.template.spec.containers[0].image) = env(NEW_IMAGE)' \
+          # Use --arg to pass the new_image into yq so it doesn't depend on env variable export
+          yq -i --arg new_image "${NEW_IMAGE}" '(select(.kind == "Deployment") | .spec.template.spec.containers[0].image) = $new_image' \
             k8s/services/<service>-deployment.yaml
       
       - name: Commit and push
