@@ -21,6 +21,13 @@ spec:
         ports:
           # This is the port your Java app is configured to run on
           - containerPort: 8082
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         env:
           # Database configuration from ConfigMap
           - name: DB_HOST

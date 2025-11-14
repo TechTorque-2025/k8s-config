@@ -21,6 +21,13 @@ spec:
         ports:
           # This is the port your Java app is configured to run on
           - containerPort: 8081
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         env:
           # Non-sensitive configuration from ConfigMap
           - name: EMAIL_ENABLED

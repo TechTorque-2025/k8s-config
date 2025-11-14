@@ -19,6 +19,13 @@ spec:
         image: ghcr.io/techtorque-2025/timelogging_service:latest
         ports:
           - containerPort: 8085
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         env:
           - name: DB_HOST
             valueFrom:

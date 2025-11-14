@@ -17,10 +17,16 @@ spec:
       containers:
       - name: api-gateway-container
         # This tag will be auto-updated by your deploy pipeline
-        image: ghcr.io/techtorque-2025/api_gateway:latest 
+        image: ghcr.io/techtorque-2025/api_gateway:latest
         ports:
         - containerPort: 8080 # The port your Go app listens on
-        
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "300m"
         env:
           # --- We will add the JWT_SECRET here later ---
           # - name: "JWT_SECRET" 
