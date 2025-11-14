@@ -10,9 +10,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/TechTorque-2025/TechTorque-2025.git  # UPDATE THIS to your repo URL
+    repoURL: https://github.com/TechTorque-2025/k8s-config.git
     targetRevision: dev  # Deploy from dev branch
-    path: k8s-config/argocd/environments/dev
+    path: argocd/environments/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

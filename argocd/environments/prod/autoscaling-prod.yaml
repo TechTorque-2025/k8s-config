@@ -9,9 +9,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/TechTorque-2025/TechTorque-2025.git  # UPDATE THIS
+    repoURL: https://github.com/TechTorque-2025/k8s-config.git  # UPDATE THIS
     targetRevision: main
-    path: k8s-config/k8s/autoscaling
+    path: k8s/autoscaling
     directory:
       include: 'hpa-azure-optimized.yaml'  # Only deploy the Azure-optimized HPA
       exclude: '{hpa.yaml,*.md,*.sh}'       # Exclude other files
