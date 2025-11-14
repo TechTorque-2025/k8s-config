@@ -2,7 +2,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vehicle-config
-  namespace: default
 data:
   DB_HOST: "postgres-vehicle-db-service"
   DB_PORT: "5432"
