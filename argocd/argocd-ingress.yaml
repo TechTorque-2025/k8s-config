@@ -1,0 +1,67 @@
+# ArgoCD Ingress Configuration for Traefik
+# Access ArgoCD at: https://argocd.techtorque.randitha.net
+
+---
+# Certificate for argocd.techtorque.randitha.net
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-techtorque-tls
+  namespace: argocd
+spec:
+  secretName: argocd-techtorque-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - argocd.techtorque.randitha.net
+
+---
+# HTTP to HTTPS Redirect for ArgoCD
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: argocd-redirect-to-https
+  namespace: argocd
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
+---
+# HTTP IngressRoute - ArgoCD (redirect to HTTPS)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-http-redirect
+  namespace: argocd
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`argocd.techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: argocd-redirect-to-https
+    services:
+      - name: argocd-server
+        port: 80
+
+---
+# HTTPS IngressRoute - ArgoCD UI
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-https
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`argocd.techtorque.randitha.net`)
+    kind: Rule
+    services:
+      - name: argocd-server
+        port: 80
+  tls:
+    secretName: argocd-techtorque-tls

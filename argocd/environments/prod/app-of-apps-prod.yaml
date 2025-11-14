@@ -1,0 +1,25 @@
+# ArgoCD App of Apps Pattern - PRODUCTION Environment
+# This manages all production applications
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: techtorque-prod-apps
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TechTorque-2025/TechTorque-2025.git  # UPDATE THIS to your repo URL
+    targetRevision: main  # Deploy from main branch
+    path: k8s-config/argocd/environments/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true

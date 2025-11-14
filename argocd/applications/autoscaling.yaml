@@ -1,0 +1,26 @@
+# ArgoCD Application for HPA (Horizontal Pod Autoscaling)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: techtorque-autoscaling
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TechTorque-2025/TechTorque-2025.git  # UPDATE THIS
+    targetRevision: main
+    path: k8s-config/k8s/autoscaling
+    directory:
+      include: 'hpa-azure-optimized.yaml'  # Only deploy the Azure-optimized HPA
+      exclude: '{hpa.yaml,*.md,*.sh}'       # Exclude other files
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

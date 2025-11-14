@@ -1,0 +1,23 @@
+# ArgoCD Application for DEV ConfigMaps
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: techtorque-configmaps-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TechTorque-2025/TechTorque-2025.git  # UPDATE THIS
+    targetRevision: dev
+    path: k8s-config/k8s/configmaps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

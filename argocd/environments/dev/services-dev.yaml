@@ -1,0 +1,29 @@
+# ArgoCD Application for DEV Microservices
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: techtorque-services-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TechTorque-2025/TechTorque-2025.git  # UPDATE THIS
+    targetRevision: dev  # Deploy from dev branch
+    path: k8s-config/k8s/services
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev  # Deploy to dev namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

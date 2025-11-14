@@ -1,0 +1,25 @@
+# ArgoCD App of Apps Pattern
+# This is the root application that manages all other applications
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: techtorque-apps
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TechTorque-2025/TechTorque-2025.git  # UPDATE THIS to your repo URL
+    targetRevision: main  # or master, depending on your default branch
+    path: k8s-config/argocd/applications
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
