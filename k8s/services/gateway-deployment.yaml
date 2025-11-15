@@ -15,48 +15,47 @@ spec:
         app: api-gateway
     spec:
       containers:
-      - name: api-gateway-container
-        # This tag will be auto-updated by your deploy pipeline
-        image: ghcr.io/techtorque-2025/api_gateway:latest
-        ports:
-        - containerPort: 8080 # The port your Go app listens on
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "300m"
-        env:
-          # --- We will add the JWT_SECRET here later ---
-          # - name: "JWT_SECRET" 
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: jwt-secret
-          #       key: JWT_SECRET
+        - name: api-gateway-container
+          # This tag will be auto-updated by your deploy pipeline
+          image: ghcr.io/techtorque-2025/api_gateway:dev-fc7e7a5
+          ports:
+            - containerPort: 8080 # The port your Go app listens on
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+          env:
+            # --- We will add the JWT_SECRET here later ---
+            # - name: "JWT_SECRET" 
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: jwt-secret
+            #       key: JWT_SECRET
 
-          # These environment variables will override config.yaml
-          # This tells your Go app to use the K8s service names
-          # CRITICAL: Always specify the port for reliable service discovery
-          - name: "AUTH_SERVICE_URL"
-            value: "http://auth-service:80"
-          - name: "VEHICLES_SERVICE_URL"
-            value: "http://vehicle-service:80"
-          - name: "APPOINTMENTS_SERVICE_URL"
-            value: "http://appointment-service:80"
-          - name: "PROJECT_SERVICE_URL"
-            value: "http://project-service:80"
-          - name: "TIME_LOGS_SERVICE_URL"
-            value: "http://time-logging-service:80"
-          - name: "PAYMENT_SERVICE_URL"
-            value: "http://payment-service:80"
-          - name: "ADMIN_SERVICE_URL"
-            value: "http://admin-service:80"
-          - name: "NOTIFICATIONS_SERVICE_URL"
-            value: "http://notification-service:80"
-          - name: "AGENT_BOT_SERVICE_URL"
-            value: "http://agent-bot-service:80"
-
+            # These environment variables will override config.yaml
+            # This tells your Go app to use the K8s service names
+            # CRITICAL: Always specify the port for reliable service discovery
+            - name: "AUTH_SERVICE_URL"
+              value: "http://auth-service:80"
+            - name: "VEHICLES_SERVICE_URL"
+              value: "http://vehicle-service:80"
+            - name: "APPOINTMENTS_SERVICE_URL"
+              value: "http://appointment-service:80"
+            - name: "PROJECT_SERVICE_URL"
+              value: "http://project-service:80"
+            - name: "TIME_LOGS_SERVICE_URL"
+              value: "http://time-logging-service:80"
+            - name: "PAYMENT_SERVICE_URL"
+              value: "http://payment-service:80"
+            - name: "ADMIN_SERVICE_URL"
+              value: "http://admin-service:80"
+            - name: "NOTIFICATIONS_SERVICE_URL"
+              value: "http://notification-service:80"
+            - name: "AGENT_BOT_SERVICE_URL"
+              value: "http://agent-bot-service:80"
 ---
 # This is the "Front Door" - it exposes your gateway to the internet
 apiVersion: v1
@@ -69,6 +68,6 @@ spec:
   selector:
     app: api-gateway # Connects to your gateway pods
   ports:
-  - name: http
-    port: 80 # Internal port
-    targetPort: 8080 # The port your Go container listens on
+    - name: http
+      port: 80 # Internal port
+      targetPort: 8080 # The port your Go container listens on
