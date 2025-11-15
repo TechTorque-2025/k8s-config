@@ -17,7 +17,7 @@ spec:
       containers:
         - name: api-gateway-container
           # This tag will be auto-updated by your deploy pipeline
-          image: ghcr.io/techtorque-2025/api_gateway:dev-fc7e7a5
+          image: ghcr.io/techtorque-2025/api_gateway:dev-563f2ad
           ports:
             - containerPort: 8080 # The port your Go app listens on
           resources:
