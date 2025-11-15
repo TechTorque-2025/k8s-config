@@ -15,58 +15,58 @@ spec:
         app: time-logging-service
     spec:
       containers:
-      - name: time-logging-service-container
-        image: ghcr.io/techtorque-2025/timelogging_service:latest
-        ports:
-          - containerPort: 8085
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "200m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        env:
-          - name: DB_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: timelogging-config
-                key: DB_HOST
-          - name: DB_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: timelogging-config
-                key: DB_PORT
-          - name: DB_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: timelogging-config
-                key: DB_NAME
-          - name: DB_USER
-            valueFrom:
-              configMapKeyRef:
-                name: timelogging-config
-                key: DB_USER
-          - name: SPRING_PROFILE
-            valueFrom:
-              configMapKeyRef:
-                name: timelogging-config
-                key: SPRING_PROFILE
-          - name: DB_PASS
-            valueFrom:
-              secretKeyRef:
-                name: timelogging-secrets
-                key: DB_PASS
+        - name: time-logging-service-container
+          image: ghcr.io/techtorque-2025/time_logging_service:main-e334bc6
+          ports:
+            - containerPort: 8085
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: timelogging-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: timelogging-config
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: timelogging-config
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: timelogging-config
+                  key: DB_USER
+            - name: SPRING_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: timelogging-config
+                  key: SPRING_PROFILE
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: timelogging-secrets
+                  key: DB_PASS
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: time-logging-service
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     app: time-logging-service
   ports:
     - protocol: TCP
-      port: 80 
+      port: 80
       targetPort: 8085
