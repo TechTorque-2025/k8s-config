@@ -1,0 +1,154 @@
+# Traefik IngressRoute for DEV Environment
+# Access dev services at:
+# - dev.techtorque.randitha.net (frontend)
+# - api.dev.techtorque.randitha.net (API)
+
+---
+# Certificate for dev.techtorque.randitha.net (Dev Frontend)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dev-techtorque-tls
+  namespace: dev
+spec:
+  secretName: dev-techtorque-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - dev.techtorque.randitha.net
+
+---
+# Certificate for api.dev.techtorque.randitha.net (Dev API)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-dev-techtorque-tls
+  namespace: dev
+spec:
+  secretName: api-dev-techtorque-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - api.dev.techtorque.randitha.net
+
+---
+# CORS Middleware for Dev Environment
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: cors-headers-dev
+  namespace: dev
+spec:
+  headers:
+    accessControlAllowOriginList:
+      - "http://localhost:3000"
+      - "https://dev.techtorque.randitha.net"
+    accessControlAllowMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "PATCH"
+      - "OPTIONS"
+    accessControlAllowHeaders:
+      - "Accept"
+      - "Authorization"
+      - "Content-Type"
+      - "X-CSRF-Token"
+      - "X-Requested-With"
+    accessControlExposeHeaders:
+      - "Link"
+    accessControlAllowCredentials: true
+    accessControlMaxAge: 100
+
+---
+# HTTP to HTTPS Redirect for Dev
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-https-dev
+  namespace: dev
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
+---
+# HTTP IngressRoute - Dev Frontend (redirect to HTTPS)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: frontend-http-redirect-dev
+  namespace: dev
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`dev.techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: redirect-to-https-dev
+    services:
+      - name: frontend-service
+        port: 80
+
+---
+# HTTP IngressRoute - Dev API (redirect to HTTPS)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-http-redirect-dev
+  namespace: dev
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`api.dev.techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: redirect-to-https-dev
+    services:
+      - name: api-gateway-service
+        port: 80
+
+---
+# HTTPS IngressRoute - Dev Frontend
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: frontend-https-dev
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`dev.techtorque.randitha.net`)
+    kind: Rule
+    services:
+      - name: frontend-service
+        port: 80
+  tls:
+    secretName: dev-techtorque-tls
+
+---
+# HTTPS IngressRoute - Dev API Backend
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: api-https-dev
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`api.dev.techtorque.randitha.net`)
+    kind: Rule
+    middlewares:
+      - name: cors-headers-dev
+    services:
+      - name: api-gateway-service
+        port: 80
+  tls:
+    secretName: api-dev-techtorque-tls
