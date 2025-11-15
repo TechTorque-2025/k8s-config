@@ -15,82 +15,81 @@ spec:
         app: notification-service
     spec:
       containers:
-      - name: notification-service-container
-        image: ghcr.io/techtorque-2025/notification_service:latest
-        ports:
-          - containerPort: 8088
-            name: http
-          - containerPort: 9090
-            name: grpc
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "200m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        env:
-          - name: DB_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: notification-config
-                key: DB_HOST
-          - name: DB_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: notification-config
-                key: DB_PORT
-          - name: DB_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: notification-config
-                key: DB_NAME
-          - name: DB_USER
-            valueFrom:
-              configMapKeyRef:
-                name: notification-config
-                key: DB_USER
-          - name: SPRING_PROFILE
-            valueFrom:
-              configMapKeyRef:
-                name: notification-config
-                key: SPRING_PROFILE
-          - name: GRPC_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: notification-config
-                key: GRPC_PORT
-          - name: EMAIL_ENABLED
-            valueFrom:
-              configMapKeyRef:
-                name: notification-config
-                key: EMAIL_ENABLED
-          - name: DB_PASS
-            valueFrom:
-              secretKeyRef:
-                name: notification-secrets
-                key: DB_PASS
+        - name: notification-service-container
+          image: ghcr.io/techtorque-2025/notification_service:main-a7a98db
+          ports:
+            - containerPort: 8088
+              name: http
+            - containerPort: 9090
+              name: grpc
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: notification-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: notification-config
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: notification-config
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: notification-config
+                  key: DB_USER
+            - name: SPRING_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: notification-config
+                  key: SPRING_PROFILE
+            - name: GRPC_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: notification-config
+                  key: GRPC_PORT
+            - name: EMAIL_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: notification-config
+                  key: EMAIL_ENABLED
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: notification-secrets
+                  key: DB_PASS
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: notification-service
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     app: notification-service
   ports:
     - protocol: TCP
-      port: 80 
+      port: 80
       targetPort: 8088
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: notification-service-grpc
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     app: notification-service
   ports:
