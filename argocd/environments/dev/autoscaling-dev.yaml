@@ -13,8 +13,8 @@ spec:
     targetRevision: dev
     path: k8s/autoscaling
     directory:
-      include: 'hpa-azure-optimized.yaml'  # Only deploy the Azure-optimized HPA
-      exclude: '{hpa.yaml,*.md,*.sh}'       # Exclude other files
+      include: 'hpa-dev.yaml'  # Deploy lightweight HPA for dev environment
+      exclude: '{hpa-azure-optimized.yaml,hpa.yaml,*.md,*.sh}'  # Exclude prod HPA and other files
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
