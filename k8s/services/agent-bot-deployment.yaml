@@ -15,7 +15,7 @@ spec:
       containers:
         - name: agent-bot-container
           # This tag will be auto-updated by your deploy pipeline
-          image: ghcr.io/techtorque-2025/agent_bot:dev-d7a7915
+          image: ghcr.io/techtorque-2025/agent_bot:dev-a139d65
           ports:
             # This is the port your Python FastAPI app is configured to run on
             - containerPort: 8091
