@@ -53,8 +53,10 @@ kubectl get ingressroute
 ## CORS Configuration
 
 The `cors-headers` middleware allows requests from:
+
 - `http://localhost:3000` (local development)
 - `https://techtorque.vercel.app` (if still needed)
 - `https://techtorque.randitha.net` (production frontend)
+- `https://dev.techtorque.randitha.net` (development frontend; allowed in prod for testing)
 
 **Note:** Once fully migrated from Vercel, you can remove the Vercel URL from the CORS allow list.

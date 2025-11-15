@@ -46,6 +46,7 @@ spec:
       - "http://localhost:3000"
       - "https://techtorque.vercel.app"
       - "https://techtorque.randitha.net"
+      - "https://dev.techtorque.randitha.net" # Allow dev frontend for cross-env testing
     accessControlAllowMethods:
       - "GET"
       - "POST"
