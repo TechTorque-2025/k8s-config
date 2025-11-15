@@ -17,7 +17,7 @@ spec:
       containers:
         - name: auth-service-container
           # This tag will be auto-updated by your deploy pipeline
-          image: ghcr.io/techtorque-2025/authentication:dev-b8cca00
+          image: ghcr.io/techtorque-2025/authentication:dev-df8ba47
           ports:
             # This is the port your Java app is configured to run on
             - containerPort: 8081
