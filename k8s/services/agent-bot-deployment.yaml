@@ -13,113 +13,113 @@ spec:
         app: agent-bot-service
     spec:
       containers:
-      - name: agent-bot-container
-        # This tag will be auto-updated by your deploy pipeline
-        image: ghcr.io/techtorque-2025/agent_bot:latest
-        ports:
-          # This is the port your Python FastAPI app is configured to run on
-          - containerPort: 8091
-        env:
-          # Non-sensitive configuration from ConfigMap
-          - name: PORT
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: PORT
-          - name: BASE_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: BASE_SERVICE_URL
-          - name: AUTHENTICATION_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: AUTHENTICATION_SERVICE_URL
-          - name: VEHICLE_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: VEHICLE_SERVICE_URL
-          - name: PROJECT_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: PROJECT_SERVICE_URL
-          - name: TIME_LOGGING_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: TIME_LOGGING_SERVICE_URL
-          - name: APPOINTMENT_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: APPOINTMENT_SERVICE_URL
-          - name: GEMINI_MODEL
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: GEMINI_MODEL
-          - name: PINECONE_ENVIRONMENT
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: PINECONE_ENVIRONMENT
-          - name: PINECONE_INDEX_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: PINECONE_INDEX_NAME
-          - name: RAG_CHUNK_SIZE
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: RAG_CHUNK_SIZE
-          - name: RAG_CHUNK_OVERLAP
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: RAG_CHUNK_OVERLAP
-          - name: MAX_CONTEXT_LENGTH
-            valueFrom:
-              configMapKeyRef:
-                name: agent-bot-config
-                key: MAX_CONTEXT_LENGTH
-          # Sensitive configuration from Secret
-          - name: GOOGLE_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: agent-bot-secrets
-                key: GOOGLE_API_KEY
-          - name: PINECONE_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: agent-bot-secrets
-                key: PINECONE_API_KEY
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8091
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8091
-          initialDelaySeconds: 15
-          periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
+        - name: agent-bot-container
+          # This tag will be auto-updated by your deploy pipeline
+          image: ghcr.io/techtorque-2025/agent_bot:main-9bdcbe3
+          ports:
+            # This is the port your Python FastAPI app is configured to run on
+            - containerPort: 8091
+          env:
+            # Non-sensitive configuration from ConfigMap
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: PORT
+            - name: BASE_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: BASE_SERVICE_URL
+            - name: AUTHENTICATION_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: AUTHENTICATION_SERVICE_URL
+            - name: VEHICLE_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: VEHICLE_SERVICE_URL
+            - name: PROJECT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: PROJECT_SERVICE_URL
+            - name: TIME_LOGGING_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: TIME_LOGGING_SERVICE_URL
+            - name: APPOINTMENT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: APPOINTMENT_SERVICE_URL
+            - name: GEMINI_MODEL
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: GEMINI_MODEL
+            - name: PINECONE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: PINECONE_ENVIRONMENT
+            - name: PINECONE_INDEX_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: PINECONE_INDEX_NAME
+            - name: RAG_CHUNK_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: RAG_CHUNK_SIZE
+            - name: RAG_CHUNK_OVERLAP
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: RAG_CHUNK_OVERLAP
+            - name: MAX_CONTEXT_LENGTH
+              valueFrom:
+                configMapKeyRef:
+                  name: agent-bot-config
+                  key: MAX_CONTEXT_LENGTH
+            # Sensitive configuration from Secret
+            - name: GOOGLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: agent-bot-secrets
+                  key: GOOGLE_API_KEY
+            - name: PINECONE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: agent-bot-secrets
+                  key: PINECONE_API_KEY
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8091
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8091
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
@@ -129,12 +129,12 @@ metadata:
   name: agent-bot-service
 spec:
   # ClusterIP means this service is ONLY reachable from *inside* the cluster
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     app: agent-bot-service # Connects this Service to the Pods above
   ports:
     - protocol: TCP
       # The service is "available" on port 80 internally
-      port: 80 
+      port: 80
       # But it forwards all traffic to your container's port 8091
       targetPort: 8091
