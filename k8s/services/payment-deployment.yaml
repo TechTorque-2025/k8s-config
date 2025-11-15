@@ -15,88 +15,88 @@ spec:
         app: payment-service
     spec:
       containers:
-      - name: payment-service-container
-        image: ghcr.io/techtorque-2025/payment_service:latest
-        ports:
-          - containerPort: 8086
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "200m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        env:
-          - name: DB_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: DB_HOST
-          - name: DB_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: DB_PORT
-          - name: DB_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: DB_NAME
-          - name: DB_USER
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: DB_USER
-          - name: SPRING_PROFILE
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: SPRING_PROFILE
-          - name: PAYHERE_MERCHANT_ID
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: PAYHERE_MERCHANT_ID
-          - name: PAYHERE_SANDBOX
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: PAYHERE_SANDBOX
-          - name: PAYHERE_RETURN_URL
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: PAYHERE_RETURN_URL
-          - name: PAYHERE_CANCEL_URL
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: PAYHERE_CANCEL_URL
-          - name: PAYHERE_NOTIFY_URL
-            valueFrom:
-              configMapKeyRef:
-                name: payment-config
-                key: PAYHERE_NOTIFY_URL
-          - name: DB_PASS
-            valueFrom:
-              secretKeyRef:
-                name: payment-secrets
-                key: DB_PASS
-          - name: PAYHERE_MERCHANT_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: payment-secrets
-                key: PAYHERE_MERCHANT_SECRET
+        - name: payment-service-container
+          image: ghcr.io/techtorque-2025/payment_service:dev-b0a913d
+          ports:
+            - containerPort: 8086
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: DB_USER
+            - name: SPRING_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: SPRING_PROFILE
+            - name: PAYHERE_MERCHANT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: PAYHERE_MERCHANT_ID
+            - name: PAYHERE_SANDBOX
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: PAYHERE_SANDBOX
+            - name: PAYHERE_RETURN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: PAYHERE_RETURN_URL
+            - name: PAYHERE_CANCEL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: PAYHERE_CANCEL_URL
+            - name: PAYHERE_NOTIFY_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: PAYHERE_NOTIFY_URL
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: payment-secrets
+                  key: DB_PASS
+            - name: PAYHERE_MERCHANT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: payment-secrets
+                  key: PAYHERE_MERCHANT_SECRET
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: payment-service
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     app: payment-service
   ports:
     - protocol: TCP
-      port: 80 
+      port: 80
       targetPort: 8086
