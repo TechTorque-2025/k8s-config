@@ -52,6 +52,16 @@ spec:
                 configMapKeyRef:
                   name: project-config
                   key: SPRING_PROFILE
+            - name: APPOINTMENT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: project-config
+                  key: APPOINTMENT_SERVICE_URL
+            - name: NOTIFICATION_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: project-config
+                  key: NOTIFICATION_SERVICE_URL
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:

@@ -82,6 +82,11 @@ spec:
                 secretKeyRef:
                   name: payment-secrets
                   key: DB_PASS
+            - name: NOTIFICATION_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: payment-config
+                  key: NOTIFICATION_SERVICE_URL
             - name: PAYHERE_MERCHANT_SECRET
               valueFrom:
                 secretKeyRef:

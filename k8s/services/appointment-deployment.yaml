@@ -1,5 +1,3 @@
-# k8s-config/k8s/services/appointment-deployment.yaml
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -57,12 +55,22 @@ spec:
                 configMapKeyRef:
                   name: appointment-config
                   key: ADMIN_SERVICE_URL
+            - name: NOTIFICATION_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: NOTIFICATION_SERVICE_URL
+            - name: TIME_LOGGING_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: TIME_LOGGING_SERVICE_URL
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   name: appointment-secrets
                   key: DB_PASS
- 
+
 ---
 apiVersion: v1
 kind: Service

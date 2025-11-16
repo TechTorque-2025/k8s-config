@@ -59,6 +59,18 @@ spec:
                   key: DB_PASS
             - name: AUTH_SERVICE_URL
               value: "http://auth-service:80"
+            - name: VEHICLE_SERVICE_URL
+              value: "http://vehicle-service:80"
+            - name: APPOINTMENT_SERVICE_URL
+              value: "http://appointment-service:80"
+            - name: PROJECT_SERVICE_URL
+              value: "http://project-service:80"
+            - name: TIME_LOGGING_SERVICE_URL
+              value: "http://time-logging-service:80"
+            - name: PAYMENT_SERVICE_URL
+              value: "http://payment-service:80"
+            - name: NOTIFICATION_SERVICE_URL
+              value: "http://notification-service:80"
 ---
 apiVersion: v1
 kind: Service

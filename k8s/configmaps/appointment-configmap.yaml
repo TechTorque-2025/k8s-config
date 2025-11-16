@@ -8,3 +8,7 @@ data:
   DB_NAME: "appointment_db"
   DB_USER: "appointment_user"
   SPRING_PROFILE: "dev"
+  # Inter-service URLs
+  ADMIN_SERVICE_URL: "http://admin-service:80"
+  NOTIFICATION_SERVICE_URL: "http://notification-service:80"
+  TIME_LOGGING_SERVICE_URL: "http://time-logging-service:80"
