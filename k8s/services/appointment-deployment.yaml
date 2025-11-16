@@ -52,6 +52,8 @@ spec:
               configMapKeyRef:
                 name: appointment-config
                 key: SPRING_PROFILE
+          - name: "ADMIN_SERVICE_URL"
+            value: "http://admin-service:80"
           - name: DB_PASS
             valueFrom:
               secretKeyRef:
