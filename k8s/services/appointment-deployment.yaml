@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: appointment-service-container
-          image: ghcr.io/techtorque-2025/appointment_service:main-bc5cf4d
+          image: ghcr.io/techtorque-2025/appointment_service:latest
           ports:
             - containerPort: 8083
           resources:
@@ -52,11 +52,17 @@ spec:
                 configMapKeyRef:
                   name: appointment-config
                   key: SPRING_PROFILE
+            - name: ADMIN_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: ADMIN_SERVICE_URL
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   name: appointment-secrets
                   key: DB_PASS
+ 
 ---
 apiVersion: v1
 kind: Service
