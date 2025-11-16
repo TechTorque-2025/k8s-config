@@ -73,6 +73,51 @@ else
     print_check 1 "Agent Bot vehicle URL INCORRECT: $AGENT_VEHICLE_URL"
 fi
 
+# Check appointment configmap for inter-service URLs
+APPT_ADMIN_URL=$(kubectl get configmap appointment-config -o jsonpath='{.data.ADMIN_SERVICE_URL}' 2>/dev/null)
+if [[ "$APPT_ADMIN_URL" == "http://admin-service:80" ]]; then
+    print_check 0 "Appointment ADMIN_SERVICE_URL: $APPT_ADMIN_URL"
+else
+    print_check 1 "Appointment ADMIN_SERVICE_URL INCORRECT: $APPT_ADMIN_URL (expected: http://admin-service:80)"
+fi
+
+APPT_NOTIF_URL=$(kubectl get configmap appointment-config -o jsonpath='{.data.NOTIFICATION_SERVICE_URL}' 2>/dev/null)
+if [[ "$APPT_NOTIF_URL" == "http://notification-service:80" ]]; then
+    print_check 0 "Appointment NOTIFICATION_SERVICE_URL: $APPT_NOTIF_URL"
+else
+    print_check 1 "Appointment NOTIFICATION_SERVICE_URL INCORRECT: $APPT_NOTIF_URL (expected: http://notification-service:80)"
+fi
+
+APPT_TIME_URL=$(kubectl get configmap appointment-config -o jsonpath='{.data.TIME_LOGGING_SERVICE_URL}' 2>/dev/null)
+if [[ "$APPT_TIME_URL" == "http://time-logging-service:80" ]]; then
+    print_check 0 "Appointment TIME_LOGGING_SERVICE_URL: $APPT_TIME_URL"
+else
+    print_check 1 "Appointment TIME_LOGGING_SERVICE_URL INCORRECT: $APPT_TIME_URL (expected: http://time-logging-service:80)"
+fi
+
+# Check project configmap for appointment & notification
+PROJ_APPT_URL=$(kubectl get configmap project-config -o jsonpath='{.data.APPOINTMENT_SERVICE_URL}' 2>/dev/null)
+if [[ "$PROJ_APPT_URL" == "http://appointment-service:80" ]]; then
+    print_check 0 "Project APPOINTMENT_SERVICE_URL: $PROJ_APPT_URL"
+else
+    print_check 1 "Project APPOINTMENT_SERVICE_URL INCORRECT: $PROJ_APPT_URL (expected: http://appointment-service:80)"
+fi
+
+PROJ_NOTIF_URL=$(kubectl get configmap project-config -o jsonpath='{.data.NOTIFICATION_SERVICE_URL}' 2>/dev/null)
+if [[ "$PROJ_NOTIF_URL" == "http://notification-service:80" ]]; then
+    print_check 0 "Project NOTIFICATION_SERVICE_URL: $PROJ_NOTIF_URL"
+else
+    print_check 1 "Project NOTIFICATION_SERVICE_URL INCORRECT: $PROJ_NOTIF_URL (expected: http://notification-service:80)"
+fi
+
+# Check payment configmap for notification URL
+PAY_CFG_NOTIF=$(kubectl get configmap payment-config -o jsonpath='{.data.NOTIFICATION_SERVICE_URL}' 2>/dev/null)
+if [[ "$PAY_CFG_NOTIF" == "http://notification-service:80" ]]; then
+    print_check 0 "Payment NOTIFICATION_SERVICE_URL (config): $PAY_CFG_NOTIF"
+else
+    print_check 1 "Payment NOTIFICATION_SERVICE_URL INCORRECT (config): $PAY_CFG_NOTIF"
+fi
+
 echo ""
 echo "3. Checking deployment environment variables..."
 echo "------------------------------------------------"
@@ -85,6 +130,12 @@ if [ -n "$GATEWAY_POD" ]; then
         print_check 0 "Gateway AUTH_SERVICE_URL: $AUTH_URL"
     else
         print_check 1 "Gateway AUTH_SERVICE_URL INCORRECT: $AUTH_URL"
+    fi
+    GATEWAY_ADMIN_URL=$(kubectl exec "$GATEWAY_POD" -- env | grep "ADMIN_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$GATEWAY_ADMIN_URL" == "http://admin-service:80" ]]; then
+        print_check 0 "Gateway ADMIN_SERVICE_URL: $GATEWAY_ADMIN_URL"
+    else
+        print_check 1 "Gateway ADMIN_SERVICE_URL INCORRECT: $GATEWAY_ADMIN_URL"
     fi
 else
     print_check 1 "No gateway pod found"
@@ -99,8 +150,109 @@ if [ -n "$ADMIN_POD" ]; then
     else
         print_check 1 "Admin AUTH_SERVICE_URL INCORRECT: $ADMIN_AUTH_URL"
     fi
+    ADMIN_VEHICLE_URL=$(kubectl exec "$ADMIN_POD" -- env | grep "VEHICLE_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$ADMIN_VEHICLE_URL" == "http://vehicle-service:80" ]]; then
+        print_check 0 "Admin VEHICLE_SERVICE_URL: $ADMIN_VEHICLE_URL"
+    else
+        print_check 1 "Admin VEHICLE_SERVICE_URL INCORRECT: $ADMIN_VEHICLE_URL"
+    fi
+
+    ADMIN_APPT_URL=$(kubectl exec "$ADMIN_POD" -- env | grep "APPOINTMENT_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$ADMIN_APPT_URL" == "http://appointment-service:80" ]]; then
+        print_check 0 "Admin APPOINTMENT_SERVICE_URL: $ADMIN_APPT_URL"
+    else
+        print_check 1 "Admin APPOINTMENT_SERVICE_URL INCORRECT: $ADMIN_APPT_URL"
+    fi
+
+    ADMIN_PROJECT_URL=$(kubectl exec "$ADMIN_POD" -- env | grep "PROJECT_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$ADMIN_PROJECT_URL" == "http://project-service:80" ]]; then
+        print_check 0 "Admin PROJECT_SERVICE_URL: $ADMIN_PROJECT_URL"
+    else
+        print_check 1 "Admin PROJECT_SERVICE_URL INCORRECT: $ADMIN_PROJECT_URL"
+    fi
+
+    ADMIN_TIMES_URL=$(kubectl exec "$ADMIN_POD" -- env | grep "TIME_LOGGING_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$ADMIN_TIMES_URL" == "http://time-logging-service:80" ]]; then
+        print_check 0 "Admin TIME_LOGGING_SERVICE_URL: $ADMIN_TIMES_URL"
+    else
+        print_check 1 "Admin TIME_LOGGING_SERVICE_URL INCORRECT: $ADMIN_TIMES_URL"
+    fi
+
+    ADMIN_PAYMENT_URL=$(kubectl exec "$ADMIN_POD" -- env | grep "PAYMENT_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$ADMIN_PAYMENT_URL" == "http://payment-service:80" ]]; then
+        print_check 0 "Admin PAYMENT_SERVICE_URL: $ADMIN_PAYMENT_URL"
+    else
+        print_check 1 "Admin PAYMENT_SERVICE_URL INCORRECT: $ADMIN_PAYMENT_URL"
+    fi
+
+    ADMIN_NOTIF_URL=$(kubectl exec "$ADMIN_POD" -- env | grep "NOTIFICATION_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$ADMIN_NOTIF_URL" == "http://notification-service:80" ]]; then
+        print_check 0 "Admin NOTIFICATION_SERVICE_URL: $ADMIN_NOTIF_URL"
+    else
+        print_check 1 "Admin NOTIFICATION_SERVICE_URL INCORRECT: $ADMIN_NOTIF_URL"
+    fi
 else
     print_check 1 "No admin pod found"
+fi
+
+# Check appointment deployment env variables
+APPT_POD=$(kubectl get pods -l app=appointment-service -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+if [ -n "$APPT_POD" ]; then
+    APPT_ADMIN_ENV=$(kubectl exec "$APPT_POD" -- env | grep "ADMIN_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$APPT_ADMIN_ENV" == "http://admin-service:80" ]]; then
+        print_check 0 "Appointment ADMIN_SERVICE_URL: $APPT_ADMIN_ENV"
+    else
+        print_check 1 "Appointment ADMIN_SERVICE_URL INCORRECT: $APPT_ADMIN_ENV"
+    fi
+
+    APPT_NOTIF_ENV=$(kubectl exec "$APPT_POD" -- env | grep "NOTIFICATION_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$APPT_NOTIF_ENV" == "http://notification-service:80" ]]; then
+        print_check 0 "Appointment NOTIFICATION_SERVICE_URL: $APPT_NOTIF_ENV"
+    else
+        print_check 1 "Appointment NOTIFICATION_SERVICE_URL INCORRECT: $APPT_NOTIF_ENV"
+    fi
+
+    APPT_TIME_ENV=$(kubectl exec "$APPT_POD" -- env | grep "TIME_LOGGING_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$APPT_TIME_ENV" == "http://time-logging-service:80" ]]; then
+        print_check 0 "Appointment TIME_LOGGING_SERVICE_URL: $APPT_TIME_ENV"
+    else
+        print_check 1 "Appointment TIME_LOGGING_SERVICE_URL INCORRECT: $APPT_TIME_ENV"
+    fi
+else
+    print_check 1 "No appointment pod found"
+fi
+
+# Check project deployment env variables for APPOINTMENT/NOTIFICATION
+PROJECT_POD=$(kubectl get pods -l app=project-service -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+if [ -n "$PROJECT_POD" ]; then
+    PROJ_APPT=$(kubectl exec "$PROJECT_POD" -- env | grep "APPOINTMENT_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$PROJ_APPT" == "http://appointment-service:80" ]]; then
+        print_check 0 "Project APPOINTMENT_SERVICE_URL: $PROJ_APPT"
+    else
+        print_check 1 "Project APPOINTMENT_SERVICE_URL INCORRECT: $PROJ_APPT"
+    fi
+
+    PROJ_NOTIF=$(kubectl exec "$PROJECT_POD" -- env | grep "NOTIFICATION_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$PROJ_NOTIF" == "http://notification-service:80" ]]; then
+        print_check 0 "Project NOTIFICATION_SERVICE_URL: $PROJ_NOTIF"
+    else
+        print_check 1 "Project NOTIFICATION_SERVICE_URL INCORRECT: $PROJ_NOTIF"
+    fi
+else
+    print_check 1 "No project pod found"
+fi
+
+# Check payment deployment env variable for notifications
+PAYMENT_POD=$(kubectl get pods -l app=payment-service -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+if [ -n "$PAYMENT_POD" ]; then
+    PAY_NOTIF=$(kubectl exec "$PAYMENT_POD" -- env | grep "NOTIFICATION_SERVICE_URL=" | cut -d'=' -f2 2>/dev/null || echo "")
+    if [[ "$PAY_NOTIF" == "http://notification-service:80" ]]; then
+        print_check 0 "Payment NOTIFICATION_SERVICE_URL: $PAY_NOTIF"
+    else
+        print_check 1 "Payment NOTIFICATION_SERVICE_URL INCORRECT: $PAY_NOTIF"
+    fi
+else
+    print_check 1 "No payment pod found"
 fi
 
 echo ""
