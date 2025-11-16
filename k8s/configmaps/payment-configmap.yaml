@@ -8,6 +8,8 @@ data:
   DB_NAME: "payment_db"
   DB_USER: "payment_user"
   SPRING_PROFILE: "dev"
+  # Inter-service URLs
+  NOTIFICATION_SERVICE_URL: "http://notification-service:80"
   PAYHERE_MERCHANT_ID: "1231968"
   PAYHERE_SANDBOX: "true"
   PAYHERE_RETURN_URL: "https://techtorque.randitha.net/payment/success"

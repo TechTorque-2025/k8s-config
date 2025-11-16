@@ -8,3 +8,6 @@ data:
   DB_NAME: "project_db"
   DB_USER: "project_user"
   SPRING_PROFILE: "dev"
+  # Inter-service URLs
+  APPOINTMENT_SERVICE_URL: "http://appointment-service:80"
+  NOTIFICATION_SERVICE_URL: "http://notification-service:80"

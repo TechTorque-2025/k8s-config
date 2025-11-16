@@ -53,7 +53,20 @@ spec:
                 name: appointment-config
                 key: SPRING_PROFILE
           - name: "ADMIN_SERVICE_URL"
-            value: "http://admin-service:80"
+            valueFrom:
+              configMapKeyRef:
+                name: appointment-config
+                key: ADMIN_SERVICE_URL
+          - name: "NOTIFICATION_SERVICE_URL"
+            valueFrom:
+              configMapKeyRef:
+                name: appointment-config
+                key: NOTIFICATION_SERVICE_URL
+          - name: TIME_LOGGING_SERVICE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: appointment-config
+                key: TIME_LOGGING_SERVICE_URL
           - name: DB_PASS
             valueFrom:
               secretKeyRef:
