@@ -8,3 +8,5 @@ data:
   DB_NAME: "vehicle_db"
   DB_USER: "vehicle_user"
   SPRING_PROFILE: "dev"
+  # Inter-service URLs
+  PROJECT_SERVICE_URL: "http://project-service:80"

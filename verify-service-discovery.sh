@@ -73,6 +73,78 @@ else
     print_check 1 "Agent Bot vehicle URL INCORRECT: $AGENT_VEHICLE_URL"
 fi
 
+# Check gateway configmap
+GATEWAY_AUTH_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.AUTH_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_AUTH_CFG" == "http://auth-service:80" ]]; then
+    print_check 0 "Gateway Config AUTH_SERVICE_URL: $GATEWAY_AUTH_CFG"
+else
+    print_check 1 "Gateway Config AUTH_SERVICE_URL INCORRECT: $GATEWAY_AUTH_CFG (expected: http://auth-service:80)"
+fi
+
+GATEWAY_VEH_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.VEHICLES_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_VEH_CFG" == "http://vehicle-service:80" ]]; then
+    print_check 0 "Gateway Config VEHICLES_SERVICE_URL: $GATEWAY_VEH_CFG"
+else
+    print_check 1 "Gateway Config VEHICLES_SERVICE_URL INCORRECT: $GATEWAY_VEH_CFG"
+fi
+
+GATEWAY_APPT_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.APPOINTMENTS_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_APPT_CFG" == "http://appointment-service:80" ]]; then
+    print_check 0 "Gateway Config APPOINTMENTS_SERVICE_URL: $GATEWAY_APPT_CFG"
+else
+    print_check 1 "Gateway Config APPOINTMENTS_SERVICE_URL INCORRECT: $GATEWAY_APPT_CFG"
+fi
+
+GATEWAY_PROJ_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.PROJECT_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_PROJ_CFG" == "http://project-service:80" ]]; then
+    print_check 0 "Gateway Config PROJECT_SERVICE_URL: $GATEWAY_PROJ_CFG"
+else
+    print_check 1 "Gateway Config PROJECT_SERVICE_URL INCORRECT: $GATEWAY_PROJ_CFG"
+fi
+
+GATEWAY_TIME_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.TIME_LOGS_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_TIME_CFG" == "http://time-logging-service:80" ]]; then
+    print_check 0 "Gateway Config TIME_LOGS_SERVICE_URL: $GATEWAY_TIME_CFG"
+else
+    print_check 1 "Gateway Config TIME_LOGS_SERVICE_URL INCORRECT: $GATEWAY_TIME_CFG"
+fi
+
+GATEWAY_PAY_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.PAYMENT_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_PAY_CFG" == "http://payment-service:80" ]]; then
+    print_check 0 "Gateway Config PAYMENT_SERVICE_URL: $GATEWAY_PAY_CFG"
+else
+    print_check 1 "Gateway Config PAYMENT_SERVICE_URL INCORRECT: $GATEWAY_PAY_CFG"
+fi
+
+GATEWAY_ADMIN_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.ADMIN_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_ADMIN_CFG" == "http://admin-service:80" ]]; then
+    print_check 0 "Gateway Config ADMIN_SERVICE_URL: $GATEWAY_ADMIN_CFG"
+else
+    print_check 1 "Gateway Config ADMIN_SERVICE_URL INCORRECT: $GATEWAY_ADMIN_CFG"
+fi
+
+GATEWAY_NOTIF_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.NOTIFICATIONS_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_NOTIF_CFG" == "http://notification-service:80" ]]; then
+    print_check 0 "Gateway Config NOTIFICATIONS_SERVICE_URL: $GATEWAY_NOTIF_CFG"
+else
+    print_check 1 "Gateway Config NOTIFICATIONS_SERVICE_URL INCORRECT: $GATEWAY_NOTIF_CFG"
+fi
+
+GATEWAY_AGENT_CFG=$(kubectl get configmap gateway-config -o jsonpath='{.data.AGENT_BOT_SERVICE_URL}' 2>/dev/null)
+if [[ "$GATEWAY_AGENT_CFG" == "http://agent-bot-service:80" ]]; then
+    print_check 0 "Gateway Config AGENT_BOT_SERVICE_URL: $GATEWAY_AGENT_CFG"
+else
+    print_check 1 "Gateway Config AGENT_BOT_SERVICE_URL INCORRECT: $GATEWAY_AGENT_CFG"
+fi
+
+# Check vehicle configmap for PROJECT_SERVICE_URL
+VEHICLE_PROJECT_CFG=$(kubectl get configmap vehicle-config -o jsonpath='{.data.PROJECT_SERVICE_URL}' 2>/dev/null)
+if [[ "$VEHICLE_PROJECT_CFG" == "http://project-service:80" ]]; then
+    print_check 0 "Vehicle PROJECT_SERVICE_URL (config): $VEHICLE_PROJECT_CFG"
+else
+    print_check 1 "Vehicle PROJECT_SERVICE_URL INCORRECT (config): $VEHICLE_PROJECT_CFG"
+fi
+
 # Check appointment configmap for inter-service URLs
 APPT_ADMIN_URL=$(kubectl get configmap appointment-config -o jsonpath='{.data.ADMIN_SERVICE_URL}' 2>/dev/null)
 if [[ "$APPT_ADMIN_URL" == "http://admin-service:80" ]]; then
@@ -108,6 +180,56 @@ if [[ "$PROJ_NOTIF_URL" == "http://notification-service:80" ]]; then
     print_check 0 "Project NOTIFICATION_SERVICE_URL: $PROJ_NOTIF_URL"
 else
     print_check 1 "Project NOTIFICATION_SERVICE_URL INCORRECT: $PROJ_NOTIF_URL (expected: http://notification-service:80)"
+fi
+
+# Check admin configmap for inter-service urls
+ADMIN_AUTH_CFG=$(kubectl get configmap admin-config -o jsonpath='{.data.AUTH_SERVICE_URL}' 2>/dev/null)
+if [[ "$ADMIN_AUTH_CFG" == "http://auth-service:80" ]]; then
+    print_check 0 "Admin Config AUTH_SERVICE_URL: $ADMIN_AUTH_CFG"
+else
+    print_check 1 "Admin Config AUTH_SERVICE_URL INCORRECT: $ADMIN_AUTH_CFG"
+fi
+
+ADMIN_VEH_CFG=$(kubectl get configmap admin-config -o jsonpath='{.data.VEHICLE_SERVICE_URL}' 2>/dev/null)
+if [[ "$ADMIN_VEH_CFG" == "http://vehicle-service:80" ]]; then
+    print_check 0 "Admin Config VEHICLE_SERVICE_URL: $ADMIN_VEH_CFG"
+else
+    print_check 1 "Admin Config VEHICLE_SERVICE_URL INCORRECT: $ADMIN_VEH_CFG"
+fi
+
+ADMIN_APPT_CFG=$(kubectl get configmap admin-config -o jsonpath='{.data.APPOINTMENT_SERVICE_URL}' 2>/dev/null)
+if [[ "$ADMIN_APPT_CFG" == "http://appointment-service:80" ]]; then
+    print_check 0 "Admin Config APPOINTMENT_SERVICE_URL: $ADMIN_APPT_CFG"
+else
+    print_check 1 "Admin Config APPOINTMENT_SERVICE_URL INCORRECT: $ADMIN_APPT_CFG"
+fi
+
+ADMIN_PROJ_CFG=$(kubectl get configmap admin-config -o jsonpath='{.data.PROJECT_SERVICE_URL}' 2>/dev/null)
+if [[ "$ADMIN_PROJ_CFG" == "http://project-service:80" ]]; then
+    print_check 0 "Admin Config PROJECT_SERVICE_URL: $ADMIN_PROJ_CFG"
+else
+    print_check 1 "Admin Config PROJECT_SERVICE_URL INCORRECT: $ADMIN_PROJ_CFG"
+fi
+
+ADMIN_TIME_CFG=$(kubectl get configmap admin-config -o jsonpath='{.data.TIME_LOGGING_SERVICE_URL}' 2>/dev/null)
+if [[ "$ADMIN_TIME_CFG" == "http://time-logging-service:80" ]]; then
+    print_check 0 "Admin Config TIME_LOGGING_SERVICE_URL: $ADMIN_TIME_CFG"
+else
+    print_check 1 "Admin Config TIME_LOGGING_SERVICE_URL INCORRECT: $ADMIN_TIME_CFG"
+fi
+
+ADMIN_PAYMENT_CFG=$(kubectl get configmap admin-config -o jsonpath='{.data.PAYMENT_SERVICE_URL}' 2>/dev/null)
+if [[ "$ADMIN_PAYMENT_CFG" == "http://payment-service:80" ]]; then
+    print_check 0 "Admin Config PAYMENT_SERVICE_URL: $ADMIN_PAYMENT_CFG"
+else
+    print_check 1 "Admin Config PAYMENT_SERVICE_URL INCORRECT: $ADMIN_PAYMENT_CFG"
+fi
+
+ADMIN_NOTIF_CFG=$(kubectl get configmap admin-config -o jsonpath='{.data.NOTIFICATION_SERVICE_URL}' 2>/dev/null)
+if [[ "$ADMIN_NOTIF_CFG" == "http://notification-service:80" ]]; then
+    print_check 0 "Admin Config NOTIFICATION_SERVICE_URL: $ADMIN_NOTIF_CFG"
+else
+    print_check 1 "Admin Config NOTIFICATION_SERVICE_URL INCORRECT: $ADMIN_NOTIF_CFG"
 fi
 
 # Check payment configmap for notification URL

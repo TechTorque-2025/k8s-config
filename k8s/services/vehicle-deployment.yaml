@@ -55,6 +55,11 @@ spec:
               configMapKeyRef:
                 name: vehicle-config
                 key: SPRING_PROFILE
+          - name: PROJECT_SERVICE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: vehicle-config
+                key: PROJECT_SERVICE_URL
           # Sensitive configuration from Secret
           - name: DB_PASS
             valueFrom:

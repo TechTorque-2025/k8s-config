@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-config
+data:
+  AUTH_SERVICE_URL: "http://auth-service:80"
+  VEHICLES_SERVICE_URL: "http://vehicle-service:80"
+  APPOINTMENTS_SERVICE_URL: "http://appointment-service:80"
+  PROJECT_SERVICE_URL: "http://project-service:80"
+  TIME_LOGS_SERVICE_URL: "http://time-logging-service:80"
+  PAYMENT_SERVICE_URL: "http://payment-service:80"
+  ADMIN_SERVICE_URL: "http://admin-service:80"
+  NOTIFICATIONS_SERVICE_URL: "http://notification-service:80"
+  AGENT_BOT_SERVICE_URL: "http://agent-bot-service:80"

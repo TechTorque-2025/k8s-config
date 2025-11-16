@@ -8,3 +8,11 @@ data:
   DB_NAME: "admin_db"
   DB_USER: "admin_user"
   SPRING_PROFILE: "dev"
+  # Inter-service URLs for Admin Service
+  AUTH_SERVICE_URL: "http://auth-service:80"
+  VEHICLE_SERVICE_URL: "http://vehicle-service:80"
+  APPOINTMENT_SERVICE_URL: "http://appointment-service:80"
+  PROJECT_SERVICE_URL: "http://project-service:80"
+  TIME_LOGGING_SERVICE_URL: "http://time-logging-service:80"
+  PAYMENT_SERVICE_URL: "http://payment-service:80"
+  NOTIFICATION_SERVICE_URL: "http://notification-service:80"
