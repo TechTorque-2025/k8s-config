@@ -70,6 +70,16 @@ spec:
                 secretKeyRef:
                   name: notification-secrets
                   key: DB_PASS
+            - name: EMAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: notification-secrets
+                  key: EMAIL_USERNAME
+            - name: EMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: notification-secrets
+                  key: EMAIL_PASSWORD
 ---
 apiVersion: v1
 kind: Service
