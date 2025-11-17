@@ -8,7 +8,7 @@ data:
   DB_PORT: "5432"
   DB_NAME: "techtorque"
   DB_USER: "techtorque"
-  FRONTEND_URL: "http://localhost:3000"
+  FRONTEND_URL: "https://dev.techtorque.randitha.net"
   SPRING_PROFILE: "dev"
   SECURITY_LOGIN_MAX_FAILED: "3"
   SECURITY_LOGIN_LOCK_MINUTES: "15"
