@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: payment-service-container
-          image: ghcr.io/techtorque-2025/payment_service:dev-05bfc20
+          image: ghcr.io/techtorque-2025/payment_service:dev-86c727b
           ports:
             - containerPort: 8086
           resources:
