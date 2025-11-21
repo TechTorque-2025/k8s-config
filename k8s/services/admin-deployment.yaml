@@ -15,93 +15,93 @@ spec:
         app: admin-service
     spec:
       containers:
-      - name: admin-service-container
-        image: ghcr.io/techtorque-2025/admin_service:latest
-        ports:
-          - containerPort: 8087
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "200m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        env:
-          - name: DB_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: DB_HOST
-          - name: DB_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: DB_PORT
-          - name: DB_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: DB_NAME
-          - name: DB_USER
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: DB_USER
-          - name: SPRING_PROFILE
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: SPRING_PROFILE
-          - name: DB_PASS
-            valueFrom:
-              secretKeyRef:
-                name: admin-secrets
-                key: DB_PASS
-          - name: AUTH_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: AUTH_SERVICE_URL
-          - name: VEHICLE_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: VEHICLE_SERVICE_URL
-          - name: APPOINTMENT_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: APPOINTMENT_SERVICE_URL
-          - name: PROJECT_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: PROJECT_SERVICE_URL
-          - name: TIME_LOGGING_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: TIME_LOGGING_SERVICE_URL
-          - name: PAYMENT_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: PAYMENT_SERVICE_URL
-          - name: NOTIFICATION_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: admin-config
-                key: NOTIFICATION_SERVICE_URL
+        - name: admin-service-container
+          image: ghcr.io/techtorque-2025/admin_service:dev-cc39c8d
+          ports:
+            - containerPort: 8087
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: DB_USER
+            - name: SPRING_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: SPRING_PROFILE
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: admin-secrets
+                  key: DB_PASS
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: AUTH_SERVICE_URL
+            - name: VEHICLE_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: VEHICLE_SERVICE_URL
+            - name: APPOINTMENT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: APPOINTMENT_SERVICE_URL
+            - name: PROJECT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: PROJECT_SERVICE_URL
+            - name: TIME_LOGGING_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: TIME_LOGGING_SERVICE_URL
+            - name: PAYMENT_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: PAYMENT_SERVICE_URL
+            - name: NOTIFICATION_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: NOTIFICATION_SERVICE_URL
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: admin-service
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     app: admin-service
   ports:
     - protocol: TCP
-      port: 80 
+      port: 80
       targetPort: 8087
