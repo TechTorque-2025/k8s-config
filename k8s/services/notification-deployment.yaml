@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: notification-service-container
-          image: ghcr.io/techtorque-2025/notification_service:dev-79bde17
+          image: ghcr.io/techtorque-2025/notification_service:dev-519dadd
           ports:
             - containerPort: 8088
               name: http
