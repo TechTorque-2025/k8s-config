@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: ghcr.io/techtorque-2025/frontend_web:dev-d04c054
+          image: ghcr.io/techtorque-2025/frontend_web:dev-9cc42ae
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
