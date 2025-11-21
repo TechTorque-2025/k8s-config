@@ -15,73 +15,73 @@ spec:
         app: appointment-service
     spec:
       containers:
-      - name: appointment-service-container
-        image: ghcr.io/techtorque-2025/appointment_service:latest
-        ports:
-          - containerPort: 8083
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "200m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        env:
-          - name: DB_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: appointment-config
-                key: DB_HOST
-          - name: DB_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: appointment-config
-                key: DB_PORT
-          - name: DB_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: appointment-config
-                key: DB_NAME
-          - name: DB_USER
-            valueFrom:
-              configMapKeyRef:
-                name: appointment-config
-                key: DB_USER
-          - name: SPRING_PROFILE
-            valueFrom:
-              configMapKeyRef:
-                name: appointment-config
-                key: SPRING_PROFILE
-          - name: "ADMIN_SERVICE_URL"
-            valueFrom:
-              configMapKeyRef:
-                name: appointment-config
-                key: ADMIN_SERVICE_URL
-          - name: "NOTIFICATION_SERVICE_URL"
-            valueFrom:
-              configMapKeyRef:
-                name: appointment-config
-                key: NOTIFICATION_SERVICE_URL
-          - name: TIME_LOGGING_SERVICE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: appointment-config
-                key: TIME_LOGGING_SERVICE_URL
-          - name: DB_PASS
-            valueFrom:
-              secretKeyRef:
-                name: appointment-secrets
-                key: DB_PASS
+        - name: appointment-service-container
+          image: ghcr.io/techtorque-2025/appointment_service:dev-ba79462
+          ports:
+            - containerPort: 8083
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: DB_USER
+            - name: SPRING_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: SPRING_PROFILE
+            - name: "ADMIN_SERVICE_URL"
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: ADMIN_SERVICE_URL
+            - name: "NOTIFICATION_SERVICE_URL"
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: NOTIFICATION_SERVICE_URL
+            - name: TIME_LOGGING_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: appointment-config
+                  key: TIME_LOGGING_SERVICE_URL
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: appointment-secrets
+                  key: DB_PASS
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: appointment-service
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     app: appointment-service
   ports:
     - protocol: TCP
-      port: 80 
+      port: 80
       targetPort: 8083
