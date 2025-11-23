@@ -4,9 +4,8 @@ metadata:
   name: agent-bot-config
 data:
   PORT: "8091"
-  # Fixed: Agent Bot should call services directly, not through gateway
-  # This reduces latency and eliminates gateway as a single point of failure
-  BASE_SERVICE_URL: "http://api-gateway-service:80/api/v1"
+  # Agent Bot uses explicit service URLs (AUTHENTICATION_SERVICE_URL / VEHICLE_SERVICE_URL / etc.)
+  # Note: Removing BASE_SERVICE_URL avoids accidental fallbacks to the API gateway.
   AUTHENTICATION_SERVICE_URL: "http://auth-service:80"
   VEHICLE_SERVICE_URL: "http://vehicle-service:80"
   PROJECT_SERVICE_URL: "http://project-service:80"

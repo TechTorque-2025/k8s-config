@@ -26,11 +26,6 @@ spec:
                 configMapKeyRef:
                   name: agent-bot-config
                   key: PORT
-            - name: BASE_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: agent-bot-config
-                  key: BASE_SERVICE_URL
             - name: AUTHENTICATION_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
