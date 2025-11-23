@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: time-logging-service-container
-          image: ghcr.io/techtorque-2025/timelogging_service:dev-707b4cf
+          image: ghcr.io/techtorque-2025/time_logging_service:dev-84498eb
           ports:
             - containerPort: 8085
           resources:
