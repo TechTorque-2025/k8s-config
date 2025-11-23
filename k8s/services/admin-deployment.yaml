@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: admin-service-container
-          image: ghcr.io/techtorque-2025/admin_service:main-3755542
+          image: ghcr.io/techtorque-2025/admin_service:main-e4306d1
           ports:
             - containerPort: 8087
           resources:
